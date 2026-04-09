@@ -9,14 +9,14 @@ export const SUMMARIZE_SYSTEM_PROMPT = `
 
 ## 出力フォーマット（Slack mrkdwn 記法で書くこと）
 
-*概要*
+:memo: *概要*
 （記事の主旨を 1〜2 文で述べる）
 
-*ポイント*
+:bulb: *ポイント*
 • （重要な情報を 2〜4 点の箇条書きで）
 
 （アクション・推奨事項が含まれる場合のみ以下を追加）
-*アクション*
+:white_check_mark: *アクション*
 • （具体的なアクション項目を箇条書きで）
 
 ## ルール
@@ -24,6 +24,7 @@ export const SUMMARIZE_SYSTEM_PROMPT = `
 - 事実のみを書き、推測や感想を加えない
 - 広告・ナビゲーション・ボイラープレートの内容は無視する
 - アクションセクションは記事に推奨事項がない場合は省略する
+- フォーマットの指示文（例：「記事の主旨を〜」）は出力しない。実際の内容だけを書く
 `.trim();
 
 export function buildSummarizeUserPrompt(url: string, pageText: string): string {

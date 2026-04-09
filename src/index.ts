@@ -1,6 +1,7 @@
 import type { Env, SlackUrlVerification, SlackEventCallback } from './types';
 import { verifySlackRequest } from './slack/verify';
-import { extractUrls, handleUrlSummaries } from './summarizer';
+import { postThreadReply } from './slack/client';
+import { extractUrls, summarizeUrl } from './summarizer';
 
 export type { Env };
 
@@ -70,7 +71,13 @@ export default {
 			const urls = extractUrls(text);
 			if (urls.length > 0) {
 				// Slack の 3 秒タイムアウトを避けるためバックグラウンドで処理する
-				ctx.waitUntil(handleUrlSummaries(env, event.channel, event.ts, urls));
+				ctx.waitUntil((async () => {
+					for (const url of urls) {
+						const summary = await summarizeUrl(env.OPENAI_API_KEY, url);
+						const message = summary ?? ':warning: リンクの内容を取得できませんでした。';
+						await postThreadReply(env, event.channel!, event.ts!, message);
+					}
+				})());
 			}
 		}
 
