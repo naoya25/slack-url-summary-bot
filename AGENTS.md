@@ -1,34 +1,34 @@
 # Cloudflare Workers
 
-STOP. Your knowledge of Cloudflare Workers APIs and limits may be outdated. Always retrieve current documentation before any Workers, KV, R2, D1, Durable Objects, Queues, Vectorize, AI, or Agents SDK task.
+**注意。** Cloudflare Workers の API や制限について、手元の知識が古い可能性があります。Workers、KV、R2、D1、Durable Objects、Queues、Vectorize、AI、Agents SDK に関する作業の前には、必ず最新ドキュメントを参照してください。
 
-## Docs
+## ドキュメント
 
 - https://developers.cloudflare.com/workers/
 - MCP: `https://docs.mcp.cloudflare.com/mcp`
 
-For all limits and quotas, retrieve from the product's `/platform/limits/` page. eg. `/workers/platform/limits`
+制限・クォータは各プロダクトの `/platform/limits/` ページから確認する。例: `/workers/platform/limits`
 
-## Commands
+## コマンド
 
-| Command | Purpose |
-|---------|---------|
-| `npx wrangler dev` | Local development |
-| `npx wrangler deploy` | Deploy to Cloudflare |
-| `npx wrangler types` | Generate TypeScript types |
+| コマンド              | 用途                  |
+| --------------------- | --------------------- |
+| `npx wrangler dev`    | ローカル開発          |
+| `npx wrangler deploy` | Cloudflare へデプロイ |
+| `npx wrangler types`  | TypeScript 型を生成   |
 
-Run `wrangler types` after changing bindings in wrangler.jsonc.
+`wrangler.jsonc` のバインディングを変更したあとは `wrangler types` を実行する。
 
-## Node.js Compatibility
+## Node.js 互換
 
 https://developers.cloudflare.com/workers/runtime-apis/nodejs/
 
-## Errors
+## エラー
 
-- **Error 1102** (CPU/Memory exceeded): Retrieve limits from `/workers/platform/limits/`
-- **All errors**: https://developers.cloudflare.com/workers/observability/errors/
+- **Error 1102**（CPU／メモリ超過）: `/workers/platform/limits/` で制限を確認する
+- **エラー全般**: https://developers.cloudflare.com/workers/observability/errors/
 
-## Product Docs
+## プロダクト別ドキュメント
 
-Retrieve API references and limits from:
+API リファレンスと制限は次のパスから取得する:
 `/kv/` · `/r2/` · `/d1/` · `/durable-objects/` · `/queues/` · `/vectorize/` · `/workers-ai/` · `/agents/`
