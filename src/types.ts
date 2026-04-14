@@ -1,7 +1,8 @@
 export interface Env {
 	SLACK_SIGNING_SECRET: string;
 	SLACK_BOT_TOKEN: string;
-	OPENAI_API_KEY: string;
+	JAPANAI_API_KEY: string;
+	JAPANAI_USER_ID: string;
 }
 
 export type SlackUrlVerification = {

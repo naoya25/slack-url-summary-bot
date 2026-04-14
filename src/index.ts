@@ -73,7 +73,7 @@ export default {
 				// Slack の 3 秒タイムアウトを避けるためバックグラウンドで処理する
 				ctx.waitUntil((async () => {
 					for (const url of urls) {
-						const summary = await summarizeUrl(env.OPENAI_API_KEY, url);
+						const summary = await summarizeUrl(env.JAPANAI_API_KEY, env.JAPANAI_USER_ID, url);
 						const message = summary ?? ':warning: リンクの内容を取得できませんでした。';
 						await postThreadReply(env, event.channel!, event.ts!, message);
 					}
