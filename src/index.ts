@@ -14,6 +14,14 @@ export default {
 
 		const rawBody = await request.text();
 
+		// リクエストが本当に Slack から来たものか署名で検証する（なりすまし防止）
+		// ※ リトライ判定より前に行う。検証前に早期リターンすると任意リクエストで
+		//   X-Slack-Retry-Num ヘッダーを付けるだけで検証をバイパスできてしまうため。
+		const verifyResult = await verifySlackRequest(request, rawBody, env.SLACK_SIGNING_SECRET);
+		if (!verifyResult.ok) {
+			return new Response('invalid signature', { status: 401 });
+		}
+
 		let body: SlackUrlVerification | SlackEventCallback;
 		try {
 			body = JSON.parse(rawBody) as SlackUrlVerification | SlackEventCallback;
@@ -25,12 +33,6 @@ export default {
 		// 3 秒以内に 200 を返せなかった場合に Slack が X-Slack-Retry-Num ヘッダー付きで再送してくる
 		if (request.headers.get('X-Slack-Retry-Num')) {
 			return new Response('ok', { status: 200 });
-		}
-
-		// リクエストが本当に Slack から来たものか署名で検証する（なりすまし防止）
-		const verifyResult = await verifySlackRequest(request, rawBody, env.SLACK_SIGNING_SECRET);
-		if (!verifyResult.ok) {
-			return new Response('invalid signature', { status: 401 });
 		}
 
 		// Event Subscriptions の URL 登録時に Slack が送る疎通確認。challenge をそのまま返せば OK
