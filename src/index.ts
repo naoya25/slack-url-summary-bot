@@ -21,6 +21,12 @@ export default {
 			return new Response('invalid json', { status: 400 });
 		}
 
+		// Slack のリトライリクエストは無視する（重複処理防止）
+		// 3 秒以内に 200 を返せなかった場合に Slack が X-Slack-Retry-Num ヘッダー付きで再送してくる
+		if (request.headers.get('X-Slack-Retry-Num')) {
+			return new Response('ok', { status: 200 });
+		}
+
 		// リクエストが本当に Slack から来たものか署名で検証する（なりすまし防止）
 		const verifyResult = await verifySlackRequest(request, rawBody, env.SLACK_SIGNING_SECRET);
 		if (!verifyResult.ok) {
